@@ -1,7 +1,7 @@
 <ion-side-menus>
 
   <ion-pane ion-side-menu-content>
-    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+    <ion-nav-bar class="bar-stable nav-title-slide">
       <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
@@ -9,16 +9,26 @@
 
   <ion-side-menu side="left">
     <header class="bar bar-header bar-stable">
-      <h1 class="title">Categories</h1>
+      <button ng-click="showTopLevelCategories()" ng-class="{ hide: hideSidemenuBackButton }" class="button back-button button-icon icon ion-arrow-left-c button back-button button-icon icon ion-arrow-left-c"  type="backType" label="backLabel" icon="backIcon" style=""><!-- ngIf: icon && label --> </button>
+      <h1 class="title">{{title}}</h1>
     </header>
     <ion-content class="has-header">
       <ion-list>
-      <ion-item menu-close ng-repeat="category in categories" href="#/app/category/{{category}}">
-          {{category}}
-          <!-- Change according to JSON received -->
-      </ion-item>
-      <ion-item menu-close href="#/app/articles">
+            <ion-item menu-close href="#/app/articles">
         Home
+      </ion-item>
+      <div menu-close ng-repeat="category in categories">
+          <!-- Change according to JSON received -->
+                              <a ng-if="category.taxons.length > 0 && category.is_first_level" ng-click="showSubcategories(category)" class="item">{{category.title}}</a>
+                    <a ng-if="category.taxons.length == 0 || !category.is_first_level"  href="#/app/category/{{category.title}}" class="item">{{category.title}}</a>
+<!--           <select style="float:right;">
+      <option selected>All</option>
+      <option>Tech</option>
+      <option>Other News</option>
+    </select> -->
+      </div>
+      <ion-item menu-close href="#/app/coupons">
+        Coupons
       </ion-item>
       </ion-list>
     </ion-content>

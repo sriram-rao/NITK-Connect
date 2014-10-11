@@ -7,30 +7,21 @@
 angular.module('starter', ['ionic', 'starter.controllers'])
 
 .service('Constants', function($http) {
-  baseUrl = 'http://nitk-connect.herokuapp.com/' //Change for correct URL
-  this.getRequest = function(url) {
-    //Check if this.Url gives correct url
-      $http.get(baseUrl + 'url').then(function(resp) {
-    console.log('Success', resp);
-    // For JSON responses, resp.data contains the result
-    $scope.result = resp.data
-  }, function(err) {
-    console.error('ERR', err);
-    // err.status will contain the status code
-  })
-  }
-
-  this.postRequest =  function(url) {
-  $http.post(baseUrl + 'url').then(function(resp) {
-    console.log('Success', resp);
-    // For JSON responses, resp.data contains the result
-    $scope.result = resp.data
-  }, function(err) {
-    console.error('ERR', err);
-    // err.status will contain the status code
-  })
+  this.baseUrl = 'http://106.186.23.15/'; //Change for correct URL
 }
-})
+
+// postRequest =  function(url) {
+//   $http.post(baseUrl + 'url').then(function(resp) {
+//     console.log('Success', resp);
+//     // For JSON responses, resp.data contains the result
+//     result = resp.data
+//   }, function(err) {
+//     console.error('ERR', err);
+//     // err.status will contain the status code
+//   })
+//   return result;
+// }
+)
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -72,6 +63,46 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         'menuContent' :{
           templateUrl: "templates/home.html",
           controller: 'CategoryCtrl'
+        }
+      }
+    })
+
+    .state('app.coupons', {
+      url: "/coupons",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/coupons.html",
+          controller: 'CategoryCtrl'
+        }
+      }
+    })
+
+    .state('app.coupon_list', {
+      url: "/coupons/:restaurant_id",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/coupon_list.html",
+          controller: 'CategoryCtrl'
+        }
+      }
+    })
+
+    .state('app.coupon_details', {
+      url: "/coupons/:restaurant_id/:coupon_id",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/coupon_details.html",
+          controller: 'CategoryCtrl'
+        }
+      }
+    })
+
+    .state('app.comments', {
+      url: "/article/:articleId/comments",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/comments.html",
+          controller: 'ArticleCtrl'
         }
       }
     })
