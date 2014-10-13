@@ -10,7 +10,7 @@
       <ion-content class="has-header">
       <ion-refresher
             pulling-text="Pull to refresh..."
-            refreshing-icon="ion-loading-c"
+            refreshing-icon="ion-loading-d"
             refreshing-text="Refreshing"
             on-refresh="doRefresh()"
             >
@@ -32,13 +32,13 @@
       <ion-content class="has-header">
         <ion-refresher
             pulling-text="Pull to refresh..."
-            refreshing-icon="ion-loading-c"
+            refreshing-icon="ion-loading-d"
             refreshing-text="Refreshing"
             on-refresh="doRefresh()"
             >
         </ion-refresher>
         <ion-list>
-          <ion-item class="card" ng-repeat="event in articles" ng-if="event.event==true" href="#/app/article/{{event.title}}">
+          <ion-item class="card" ng-repeat="event in articles track by $index" ng-if="event.event==true" href="#/app/article/{{event.title}}">
               <div>
                 <b>{{event.title}}</b>
               </div>

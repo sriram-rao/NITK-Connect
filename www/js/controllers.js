@@ -49,8 +49,9 @@ $scope.doRefresh = function() {
        delete $localStorage.store;
        console.log('refresh');
      })
-     $scope.$broadcast('scroll.refreshComplete');
-       console.log('refresh');
+        $scope.$broadcast('scroll.refreshComplete');
+
+     console.log('refresh');
 
   data=res;
   console.log('dataxz',data);
@@ -58,6 +59,21 @@ $scope.doRefresh = function() {
           store: data
           });
   $scope.articles=$scope.$storage.store;
+  for(var i=0;i<$scope.$storage.store.length;i++){
+  if($scope.$storage.store[i].event==true){
+      console.log('event');
+      str='';
+      for(var j=0;j<19;j++){
+        if(j==10){
+          str+=' Time: ';
+        }else{
+          str+=($scope.$storage.store[i].event_start).charAt(j);
+        }
+      }
+      console.log(str);
+      $scope.$storage.store[i].event_start=str;
+    }
+  }
 };
 
   $scope.title = 'Home';
@@ -174,11 +190,12 @@ $scope.doRefresh = function() {
   // $scope.$storage = $localStorage.$default({storedog:{id: $stateParams.categoryName, storecat:data}});
   // $scope.articles=$scope.$storage.storedog.storecat;
   // console.log('store',$scope.$storage.storecat);
-
-  var j=0;
+  $scope.$index=[];
+  var j=0,k=0;
   for(var i=0;i<$scope.$storage.store.length;i++){
     if(!($scope.$storage.store[i].category).localeCompare($stateParams.categoryName)){
       $scope.articles[j++]=$scope.$storage.store[i];
+      $scope.$index[k++]=$scope.articles[j-1].id;
     }
   }
 
@@ -191,11 +208,85 @@ $scope.doRefresh = function() {
   if (!(typeof $stateParams.coupon_id === 'undefined'))
     coupon_id = parseInt($stateParams.coupon_id);
   // $scope.articles=$scope.result;
-  
+
   $scope.restaurants = [
     {
       id: 1,
+      name: 'G6 Music Cafe',
+      description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
+      coupons: $scope.articles
+      // coupons: [
+      //   {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
+      //   {id: 2, offer: "15% discount for a bill over ₹1,000", validity: "1st December"},
+      //   {id: 3, offer: "Get 2 iced teas free with orders of ₹350", validity: "1st December"}
+      // ]
+    },{
+      id: 2,
+      name: 'Mangala Restaurant',
+      description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
+      coupons: [
+        {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
+        {id: 2, offer: "15% discount for a bill over ₹1,000", validity: "1st December"},
+        {id: 3, offer: "Get 2 iced teas free with orders of ₹350", validity: "1st December"}
+      ]
+    },{
+      id: 3,
+      name: 'Crave Cafe',
+      description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
+      coupons: [
+        {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
+        {id: 2, offer: "15% discount for a bill over ₹1,000", validity: "1st December"},
+        {id: 3, offer: "Get 2 iced teas free with orders of ₹350", validity: "1st December"}
+      ]
+    },{
+      id: 4,
+      name: 'Kabab Studio',
+      description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
+      coupons: [
+        {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
+        {id: 2, offer: "15% discount for a bill over ₹1,000", validity: "1st December"},
+        {id: 3, offer: "Get 2 iced teas free with orders of ₹350", validity: "1st December"}
+      ]
+    },{
+      id: 5,
+      name: 'Mojo\'s',
+      description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
+      coupons: [
+        {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
+        {id: 2, offer: "15% discount for a bill over ₹1,000", validity: "1st December"},
+        {id: 3, offer: "Get 2 iced teas free with orders of ₹350", validity: "1st December"}
+      ]
+    },{
+      id: 6,
+      name: 'Sandigra',
+      description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
+      coupons: [
+        {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
+        {id: 2, offer: "15% discount for a bill over ₹1,000", validity: "1st December"},
+        {id: 3, offer: "Get 2 iced teas free with orders of ₹350", validity: "1st December"}
+      ]
+    },
+    {
+      id: 7,
       name: 'Sip n Sup Cafe',
+      description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
+      coupons: [
+        {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
+        {id: 2, offer: "15% discount for a bill over ₹1,000", validity: "1st December"},
+        {id: 3, offer: "Get 2 iced teas free with orders of ₹350", validity: "1st December"}
+      ]
+    },{
+      id: 8,
+      name: 'Trattoria',
+      description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
+      coupons: [
+        {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
+        {id: 2, offer: "15% discount for a bill over ₹1,000", validity: "1st December"},
+        {id: 3, offer: "Get 2 iced teas free with orders of ₹350", validity: "1st December"}
+      ]
+    },{
+      id: 9,
+      name: 'Palkhi',
       description: "Cost for 2: ₹300 <br/> Cuisine: Cafe and sandwiches<br/>How to get there: Near Surathkal bus stand<br/>Best dish: Cheesecake and Chicken burger",
       coupons: [
         {id: 1, offer: "20% discount on Wednesdays", validity: "1st November"},
@@ -204,6 +295,8 @@ $scope.doRefresh = function() {
       ]
     }
   ];
+
+  $scope.res_title = $scope.restaurants[$scope.restaurant_id-1].name;
   $scope.coupon_list = $scope.restaurants[$scope.restaurant_id-1].coupons;
   $scope.description = $scope.restaurants[$scope.restaurant_id-1].description;
   $scope.coupon_details = $scope.restaurants[$scope.restaurant_id-1].coupons[coupon_id-1];

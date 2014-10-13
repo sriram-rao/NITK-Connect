@@ -58,6 +58,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    //$cordovaSplashScreen.show();
     //navigator.splashscreen.show();
     console.log("Cordova is ready, let's do this!");
     $.ajax({
@@ -67,7 +68,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
      .success(function(response,status) {
        res = response;
        delete $localStorage.store;
-       //navigator.splashscreen.hide();
+      //navigator.splashscreen.hide();
+       //$cordovaSplashScreen.hide();
 
        console.log('refresh');
      })
@@ -78,6 +80,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
      $localStorage.$default({
           store: data
           });
+
+  for(var i=0;i<$localStorage.store.length;i++){
+  if($localStorage.store[i].event==true){
+      console.log('event');
+      str='';
+      for(var j=0;j<19;j++){
+        if(j==10){
+          str+=' Time: ';
+        }else{
+          str+=($localStorage.store[i].event_start).charAt(j);
+        }
+      }
+      console.log(str);
+      $localStorage.store[i].event_start=str;
+    }
+  }
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
