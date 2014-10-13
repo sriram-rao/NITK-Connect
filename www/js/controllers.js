@@ -1,30 +1,77 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $http, Constants, $timeout) {
+.controller('AppCtrl', function($scope, $http, Constants, Shared, $localStorage, $timeout) {
 
-  $.ajax({
+  // $.ajax({
+  //       type: "GET",
+  //       async: false,
+  //       url: Constants.baseUrl + 'api/list?after=0'
+  // }).success(function(response, status) {
+  //       //$scope.status = status;
+  //       $scope.result = response;
+  //       Shared.addList(response);
+  //       delete $localStorage.store;
+  //       //Shared.store(response);
+  //       //console.log('Success',$scope.result);
+  // });
+  
+
+  data=$scope.result;
+  console.log('data',data);
+  $scope.$storage = $localStorage.$default({
+          store: data
+        });
+  // console.log('local',$scope.$storage);
+  // var cache = $cacheFactory('cache');
+
+  // var data = cache.get(key);
+
+  // if (!data) {
+  //    $.ajax({
+  //       type: "GET",
+  //       async: false,
+  //       url: Constants.baseUrl + 'api/list?after=0'
+  //       }).success(function(response, status){
+  //         $scope.result = response;
+  //         cache.put(key, $scope.result);
+  //       })
+  // }
+
+$scope.doRefresh = function() {
+    console.log('refresh');
+    $.ajax({
         type: "GET",
         async: false,
-        url: Constants.baseUrl + 'api/list?after=0'
-  }).success(function(response, status) {
-        //$scope.status = status;
-        $scope.result = response;
-        console.log('Success',$scope.result);
-  });
+        url: Constants.baseUrl + 'api/list?after=0'})
+     .success(function(response,status) {
+       res = response;
+       Shared.addList(response);
+       delete $localStorage.store;
+       console.log('refresh');
+     })
+     $scope.$broadcast('scroll.refreshComplete');
+       console.log('refresh');
 
+  data=res;
+  console.log('dataxz',data);
+  $scope.$storage = $localStorage.$default({
+          store: data
+          });
+  $scope.articles=$scope.$storage.store;
+};
 
   $scope.title = 'Home';
-  console.log('Result from controller');
-  console.log($scope.result);
-  $scope.articles=$scope.result;
-  console.log('Articles object',$scope.articles);
+  //console.log('Result from controller');
+  //console.log($scope.result);
+  $scope.articles=$scope.$storage.store;
+  //console.log('Articles object',$scope.articles);
   // Side menu sub categories
    $scope.hideSidemenuBackButton = true;
     var topLevelCategories;
 
     topLevelCategories = $scope.categories = [
       {id: 1, title: 'Student Council', taxons: [], is_first_level: true},
-      {id: 2, title: 'Administration', taxons: [], is_first_level: true},
+      //{id: 2, title: 'Administration', taxons: [], is_first_level: true},
       {id: 3, title: 'Technical Clubs', taxons: [
         {id: 31, title: 'IEEE', taxons: [], is_first_level: false},
         {id: 32, title: 'CSI', taxons: [], is_first_level: false},
@@ -33,25 +80,24 @@ angular.module('starter.controllers', [])
         {id: 35, title: 'IET', taxons: [], is_first_level: false}
       ], is_first_level: true},
       {id: 4, title: 'Cultural Clubs', taxons: [
+        {id: 47, title: 'LSD', taxons: [], is_first_level: false},
         {id: 41, title: 'Music Club', taxons: [], is_first_level: false},
         {id: 42, title: 'DDFC', taxons: [], is_first_level: false},
-        {id: 43, title: 'Films Club', taxons: [], is_first_level: false},
         {id: 44, title: 'Spic Mackay', taxons: [], is_first_level: false},
-        {id: 45, title: 'Artist Forum & MACD', taxons: [], is_first_level: false},
-        {id: 46, title: 'Others', taxons: [], is_first_level: false}
-      ], is_first_level: true},
-    {id: 5, title: 'Non-Technical Clubs', taxons: [
+        {id: 45, title: 'Art & Design', taxons: [], is_first_level: false},
+        {id: 46, title: 'Kannada Vedika', taxons: [], is_first_level: false}
+        ], is_first_level: true},
+    {id: 5, title: 'Special Interest Clubs', taxons: [
         {id: 51, title: 'Rotaract Club', taxons: [], is_first_level: false},
         {id: 52, title: 'Hobbies Club', taxons: [], is_first_level: false},
         {id: 53, title: 'E-Cell', taxons: [], is_first_level: false},
-        {id: 54, title: 'LSD', taxons: [], is_first_level: false},
-        {id: 55, title: 'Racing Club', taxons: [], is_first_level: false}
+        {id: 54, title: 'Racing Club', taxons: [], is_first_level: false}
       ], is_first_level: true},
-      {id: 6, title: 'First Year Students', taxons: [], is_first_level: true},
+      //{id: 6, title: 'First Year Students', taxons: [], is_first_level: true},
       {id: 7, title: 'Engineer', taxons: [], is_first_level: true},
       {id: 8, title: 'Incident', taxons: [], is_first_level: true},
-      {id: 9, title: 'Talks and Seminars', taxons: [], is_first_level: true},
-      {id: 10, title: 'College Sports News', taxons: [], is_first_level: true}
+      {id: 9, title: 'Talks and Seminars ', taxons: [], is_first_level: true},
+      {id: 10, title: 'College Sports', taxons: [], is_first_level: true}
     ];
 
     var getByParentId = function(id) {
@@ -78,36 +124,65 @@ angular.module('starter.controllers', [])
         $scope.hideSidemenuBackButton = true;
     };
     // End of subcategories
-  $scope.article = [
-  {heading: 'News 4', postedBy: 'Club 1'},
-  {heading: 'News 3', postedBy: 'Club 2'},
-  {heading: 'News 2', postedBy: 'Club 3'},
-  {heading: 'News 1', postedBy: 'Club 4'}
-   ];
-
-   $scope.events = [
-  {heading: 'Title 1', location: 'NITK', dateTime: '30-September-2014'},
-  {heading: 'Title 2', location: 'NITK', dateTime: '30-September-2014'},
-  {heading: 'Title 3', location: 'NITK', dateTime: '30-September-2014'},
-  {heading: 'Title 4', location: 'NITK', dateTime: '30-September-2014'}
-   ];
-
 })
 
-.controller('CategoryCtrl', function($scope, $stateParams, Constants, $timeout) {
+.controller('CategoryCtrl', function($scope, $stateParams, Constants, Shared, $localStorage, $timeout) {
+  
+  $scope.articles=[];
+  //$scope.$storage=$localStorage.$default({storedog:'hi'});
+  // $.ajax({
+  //       type: "GET",
+  //       async: false,
+  //       url: Constants.baseUrl + 'api/list?after=0' + $stateParams.categoryName
+  // }).success(function(response, status) {
+  //       //$scope.status = status;
+  //       $scope.result = response;
+  //       //delete $localStorage.storedog.storecat;
+  //       //Shared.store(response);
+  // });
 
-  $.ajax({
+  $scope.doRefresh = function() {
+    console.log('refresh');
+    $.ajax({
         type: "GET",
         async: false,
-        url: Constants.baseUrl + 'api/list?after=0&category=' + $stateParams.categoryName
-  }).success(function(response, status) {
-        //$scope.status = status;
-        $scope.result = response;
-        console.log('Success',$scope.result);
-  });
+        url: Constants.baseUrl + 'api/list?after=0'})
+     .success(function(response,status) {
+       res = response;
+       Shared.addList(response);
+       delete $localStorage.store;
+       console.log('refresh');
+     })
+     $scope.$broadcast('scroll.refreshComplete');
+       console.log('refresh');
 
-  $scope.articles=$scope.result;
-  console.log($scope.articles);
+  data=res;
+  console.log('data',data);
+  $scope.$storage = $localStorage.$default({
+          store: data
+          });
+
+  var j=0;
+  for(var i=0;i<$scope.$storage.store.length;i++){
+    if(!($scope.$storage.store[i].category).localeCompare($stateParams.categoryName)){
+      $scope.articles[j++]=$scope.$storage.store[i];
+    }
+  }
+};
+
+  // data=$scope.result;
+  // $scope.$storage = $localStorage.$default({storedog:{id: $stateParams.categoryName, storecat:data}});
+  // $scope.articles=$scope.$storage.storedog.storecat;
+  // console.log('store',$scope.$storage.storecat);
+
+  var j=0;
+  for(var i=0;i<$scope.$storage.store.length;i++){
+    if(!($scope.$storage.store[i].category).localeCompare($stateParams.categoryName)){
+      $scope.articles[j++]=$scope.$storage.store[i];
+    }
+  }
+
+  console.log('success',$scope.articles);
   $scope.title = $stateParams.categoryName;
   $scope.restaurant_id = 1;
   var coupon_id = 1;
@@ -115,15 +190,8 @@ angular.module('starter.controllers', [])
     $scope.restaurant_id = parseInt($stateParams.restaurant_id);
   if (!(typeof $stateParams.coupon_id === 'undefined'))
     coupon_id = parseInt($stateParams.coupon_id);
-  $scope.articles=$scope.result;
-  $scope.article = [
-  {heading: 'News 1', descr: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt'},
-  {heading: 'News 2', descr: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt'}
-  ];
-  $scope.events = [
-  {heading: 'Title 1', location: 'NITK', dateTime: '30-September-2014'},
-  {heading: 'Title 2', location: 'NITK', dateTime: '30-September-2014'},
-  ];
+  // $scope.articles=$scope.result;
+  
   $scope.restaurants = [
     {
       id: 1,
@@ -141,10 +209,35 @@ angular.module('starter.controllers', [])
   $scope.coupon_details = $scope.restaurants[$scope.restaurant_id-1].coupons[coupon_id-1];
 })
 
-.controller('ArticleCtrl', function($scope, $stateParams, Constants, $timeout) {
+.controller('ArticleCtrl', function($scope, $stateParams, Constants, Shared, $timeout) {
   //$scope.backendUrl = 'http://nitk-connect.herokuapp.com/' //Change to correct link
   // $scope.result = Constants.getRequest($stateParams.articleId);
   $scope.title = $stateParams.articleId;
-  // console.log($scope.title);
-  $scope.content = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.";
+  $scope.articles=[];
+  $scope.articles=$scope.$storage.store;
+  for(var i=0; i< ($scope.articles).length;i++){
+    if(!($scope.articles[i].title).localeCompare($scope.title))
+    $scope.content = $scope.articles[i].content;
+  }
+})
+
+.controller('FirstCtrl',function($scope, Constants, $localStorage, $timeout) {
+  $.ajax({
+        type: "GET",
+        async: false,
+        url: Constants.baseUrl + 'api/list?after=0'})
+     .success(function(response,status) {
+       res = response;
+       Shared.addList(response);
+       delete $localStorage.store;
+
+       console.log('refresh');
+     })
+     console.log('refresh');
+
+     data=res;
+     console.log('data',data);
+     $scope.$storage = $localStorage.$default({
+          store: data
+          });
 })

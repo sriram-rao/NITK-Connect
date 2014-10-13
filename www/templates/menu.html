@@ -14,22 +14,20 @@
     </header>
     <ion-content class="has-header">
       <ion-list>
-            <ion-item menu-close href="#/app/articles">
-        Home
-      </ion-item>
-      <div menu-close ng-repeat="category in categories">
-          <!-- Change according to JSON received -->
-                              <a ng-if="category.taxons.length > 0 && category.is_first_level" ng-click="showSubcategories(category)" class="item">{{category.title}}</a>
-                    <a ng-if="category.taxons.length == 0 || !category.is_first_level"  href="#/app/category/{{category.title}}" class="item">{{category.title}}</a>
-<!--           <select style="float:right;">
-      <option selected>All</option>
-      <option>Tech</option>
-      <option>Other News</option>
-    </select> -->
-      </div>
-      <ion-item menu-close href="#/app/coupons">
+	  <div>
+        <ion-item menu-close href="#/app/articles">
+		Home
+		</ion-item>
+		<div menu-close ng-repeat="category in categories">
+          <a ng-if="category.taxons.length > 0 && category.is_first_level" ng-click="showSubcategories(category)" class="item">{{category.title}}</a>
+          <a ng-if="category.taxons.length == 0 || !category.is_first_level"  href="#/app/category/{{category.title}}" class="item">{{category.title}}</a>
+		</div>
+		</div>
+		<div>
+		<ion-item menu-close href="#/app/coupons">
         Coupons
-      </ion-item>
+		</ion-item>
+		</div>
       </ion-list>
     </ion-content>
   </ion-side-menu>

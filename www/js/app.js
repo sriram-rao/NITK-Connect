@@ -4,11 +4,43 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
 
 .service('Constants', function($http) {
   this.baseUrl = 'http://106.186.23.15/'; //Change for correct URL
-}
+})
+
+.service('Shared', function() {
+  var articleList=[];
+
+  var addList = function(artList){
+    articleList = artList;
+  }
+
+  // var store = lawnchair(function(store){
+  //   var str={key: articleList};
+
+  //   store.save(str);
+  
+  //   this.get(articleList,function(str){
+  //     console.log(str);
+  //   })
+  // })
+
+  var getList = function(){
+    return articleList;
+  }
+
+  return{
+    addList: addList,
+    getList: getList,
+   // store: store
+  };
+})
+
+// .factory('cache', ['$cacheFactory', function($cacheFactory) {
+//     return $cacheFactory('cache');
+// }])
 
 // postRequest =  function(url) {
 //   $http.post(baseUrl + 'url').then(function(resp) {
@@ -21,12 +53,31 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 //   })
 //   return result;
 // }
-)
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, Constants, $localStorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    //navigator.splashscreen.show();
+    console.log("Cordova is ready, let's do this!");
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: Constants.baseUrl + 'api/list?after=0'})
+     .success(function(response,status) {
+       res = response;
+       delete $localStorage.store;
+       //navigator.splashscreen.hide();
+
+       console.log('refresh');
+     })
+     console.log('refresh');
+
+     data=res;
+     console.log('data',data);
+     $localStorage.$default({
+          store: data
+          });
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -39,6 +90,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
+
+    .state('initial', {
+      url: "/#",
+      abstract: true,
+      controller: 'FirstCtrl'
+    })
 
     .state('app', {
       url: "/app",

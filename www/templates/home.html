@@ -4,13 +4,21 @@
   </ion-nav-buttons>
 
   <ion-tabs class="tabs-striped tabs-top">
-
+    
+  
     <ion-tab title="News">
       <ion-content class="has-header">
+      <ion-refresher
+            pulling-text="Pull to refresh..."
+            refreshing-icon="ion-loading-c"
+            refreshing-text="Refreshing"
+            on-refresh="doRefresh()"
+            >
+        </ion-refresher>
         <ion-list>
           <ion-item  ng-repeat="article in articles" ng-if="article.event==false"  href="#/app/article/{{article.title}}">
               <div >
-                <b>{{article.title}}</b>
+              <b>{{article.title}}</b>
               </div>
               <div>
                 Posted by: {{article.author}}
@@ -22,6 +30,13 @@
 
     <ion-tab title="Events">
       <ion-content class="has-header">
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            refreshing-icon="ion-loading-c"
+            refreshing-text="Refreshing"
+            on-refresh="doRefresh()"
+            >
+        </ion-refresher>
         <ion-list>
           <ion-item class="card" ng-repeat="event in articles" ng-if="event.event==true" href="#/app/article/{{event.title}}">
               <div>
