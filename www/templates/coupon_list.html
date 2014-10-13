@@ -6,13 +6,14 @@
   <ion-content class="has-header">
   <ion-item style="text-align:center;">
   <br/>
-    <b>Sip n Sup Cafe & Restaurant, Surathkal</b><br/><br/>
+    <b>{{res_title}}</b><br/><br/>
   </ion-item>
   <ion-item>
-    <b>Cost for 2</b>: ₹300 <br/>
+<!--     <b>Cost for 2</b>: ₹300 <br/>
     <b>Cuisine</b>: Cafe and sandwiches<br/>
     <b>How to get there</b>: Near Surathkal bus stand<br/>
-    <b>Best dish</b>: Cheesecake and Chicken burger
+    <b>Best dish</b>: Cheesecake and Chicken burger -->
+  {{description}}
   </ion-item>
         <ion-list>
         <ion-item   ng-repeat="coupon in  coupon_list"  href="#/app/coupons/{{restaurant_id}}/{{coupon.id}}">
