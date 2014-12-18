@@ -7,7 +7,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
 
 .service('Constants', function($http) {
-  this.baseUrl = 'http://106.186.23.15/'; //Change for correct URL
+  this.baseUrl = 'http://106.186.23.15'; //Change for correct URL
 })
 
 .service('Shared', function() {
@@ -60,11 +60,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
     // for form inputs)
     //$cordovaSplashScreen.show();
     //navigator.splashscreen.show();
+    res=[];
     console.log("Cordova is ready, let's do this!");
     $.ajax({
         type: "GET",
         async: false,
-        url: Constants.baseUrl + 'api/list?after=0'})
+        url: Constants.baseUrl + '/api/list?after=0'})
      .success(function(response,status) {
        res = response;
        delete $localStorage.store;
@@ -81,21 +82,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
           store: data
           });
 
-  for(var i=0;i<$localStorage.store.length;i++){
-  if($localStorage.store[i].event==true){
-      console.log('event');
-      str='';
-      for(var j=0;j<19;j++){
-        if(j==10){
-          str+=' Time: ';
-        }else{
-          str+=($localStorage.store[i].event_start).charAt(j);
-        }
-      }
-      console.log(str);
-      $localStorage.store[i].event_start=str;
-    }
-  }
+  // for(var i=0;i<$localStorage.store.length;i++){
+  // if($localStorage.store[i].event==true){
+  //     console.log('event');
+  //     str='';
+  //     for(var j=0;j<19;j++){
+  //       if(j==10){
+  //         str+=' Time: ';
+  //       }else{
+  //         str+=($localStorage.store[i].event_start).charAt(j);
+  //       }
+  //     }
+  //     console.log(str);
+  //     $localStorage.store[i].event_start=str;
+  //   }
+  // }
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -108,12 +109,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-
-    .state('initial', {
-      url: "/#",
-      abstract: true,
-      controller: 'FirstCtrl'
-    })
 
     .state('app', {
       url: "/app",
@@ -138,6 +133,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
         'menuContent' :{
           templateUrl: "templates/home.html",
           controller: 'CategoryCtrl'
+        }
+      }
+    })
+
+      .state('app.liveNews', {
+      url: "/live",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/live.html",
+          controller: 'LiveCtrl'
         }
       }
     })
@@ -178,6 +183,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
         'menuContent' :{
           templateUrl: "templates/comments.html",
           controller: 'ArticleCtrl'
+        }
+      }
+    })
+
+    .state('app.aboutUs', {
+      url: "/about",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/about.html",
+          controller: 'AppCtrl'
         }
       }
     })

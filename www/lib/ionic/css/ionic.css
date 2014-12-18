@@ -2783,7 +2783,7 @@ a.subdued {
       background-image: linear-gradient(180deg, #ddd, #ddd 50%, transparent 50%); }
   .bar.bar-stable {
     border-color: #b2b2b2;
-    background-color: #f8f8f8;
+    background-color: #507cf9;
     background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
     color: #444; }
     .bar.bar-stable .title {
@@ -3274,7 +3274,7 @@ a.subdued {
     color: #444; }
 
 .tabs-striped .tabs {
-  background-color: white;
+  background-color: #96aceb;
   background-image: none;
   border: none;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
