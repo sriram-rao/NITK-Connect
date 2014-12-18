@@ -1,24 +1,23 @@
-<ion-view title="Coupons" hide-back-button=true >
-  <ion-nav-buttons side="left">
+ <ion-view title="Restaurant Deals" hide-back-button=true>
+ <ion-nav-buttons side="left">
   <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
   <ion-content class="has-header">
-  <ion-item style="text-align:center;">
+  <ion-item style="text-align:center; background-color: #96aceb">
   <br/>
     <b>{{res_title}}</b><br/><br/>
   </ion-item>
   <ion-item>
-<!--     <b>Cost for 2</b>: ₹300 <br/>
-    <b>Cuisine</b>: Cafe and sandwiches<br/>
-    <b>How to get there</b>: Near Surathkal bus stand<br/>
-    <b>Best dish</b>: Cheesecake and Chicken burger -->
-  {{description}}
+  <div class="item item-text-wrap" style="text-align: justify;"><b>{{description1}}</b>{{description2}}<br/></div>
+  <div class="item item-text-wrap" style="text-align: justify;"><b>{{description3}}</b>{{description4}}<br/></div>
+  <div class="item item-text-wrap" style="text-align: justify;"><b>{{description5}}</b>{{description6}}<br/></div>
+  <div class="item item-text-wrap" style="text-align: justify;"><b>{{description7}}</b>{{description8}}<br/></div>
   </ion-item>
         <ion-list>
-        <ion-item   ng-repeat="coupon in  coupon_list"  href="#/app/coupons/{{restaurant_id}}/{{coupon.id}}">
-                <b> Offer: {{coupon.offer}} </b><br/>
-                Valid till {{coupon.validity}}
+        <ion-item ng-repeat="coupon in coupon_list"  href="#/app/coupons/{{restaurant_id}}/{{coupon.id}}">
+                <b> Offer: {{coupon.title}} </b><br/>
+                {{coupon.content}}
           </ion-item>
         </ion-list>
   </ion-content>

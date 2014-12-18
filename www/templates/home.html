@@ -1,13 +1,13 @@
-<ion-view title="{{title}}" hide-back-button=true >
+<ion-view title="{{title}}" hide-back-button=true style="background-colour:blue">
   <ion-nav-buttons side="left">
   <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
-  <ion-tabs class="tabs-striped tabs-top">
+  <ion-tabs class="tabs-striped tabs-top" style="colour:blue">
     
   
     <ion-tab title="News">
-      <ion-content class="has-header">
+      <ion-content class="has-header" style="background-colour:blue">
       <ion-refresher
             pulling-text="Pull to refresh..."
             refreshing-icon="ion-loading-d"
@@ -16,11 +16,11 @@
             >
         </ion-refresher>
         <ion-list>
-          <ion-item  ng-repeat="article in articles" ng-if="article.event==false"  href="#/app/article/{{article.title}}">
+          <ion-item  ng-repeat="article in articles" ng-if="article.event==false && article.category!='Coupons' && article.category!='Live News'"  href="#/app/article/{{article.id}}" >
               <div >
               <b>{{article.title}}</b>
               </div>
-              <div>
+              <div class="item-text-wrap" style="text-align: justify;">
                 Posted by: {{article.author}}
               </div>
           </ion-item>
@@ -38,12 +38,12 @@
             >
         </ion-refresher>
         <ion-list>
-          <ion-item class="card" ng-repeat="event in articles track by $index" ng-if="event.event==true" href="#/app/article/{{event.title}}">
+          <ion-item class="card" ng-repeat="event in articles | orderBy: 'event_start' " ng-if="event.event==true && cut.isBefore(event.event_start)" href="#/app/article/{{event.id}}">
               <div>
                 <b>{{event.title}}</b>
               </div>
                 <div>Where: {{event.venue}}</div>
-               <div> When: {{event.event_start}}</div>
+               <div> When: {{millisToUTCDate(event.event_start) | date: 'd MMMM yyyy hh:mm a' : 'UTC'}}</div>
         </ion-item>
         </ion-list>
       </ion-content>

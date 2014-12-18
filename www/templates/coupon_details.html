@@ -1,15 +1,17 @@
-<ion-view title="{{title}}">
+<ion-view title="Restaurant Deals">
   <ion-nav-buttons side="right"></ion-nav-buttons>
   <ion-content class="has-header">
     <div class="card">
             <div class="item item-divider">
-              Coupon {{coupon_details.id}}
+              Coupon {{coupon_list.id}}
             </div>
           <div class="item item-text-wrap" style="text-align: justify;">
-            <b> {{coupon_details.offer}} </b><br/>
-            Valid till {{coupon_details.validity}} <br/><br/>
-            To redeem coupon present this coupon on NITK-Connect app along with student ID.
+            <b> {{coupon_title}} </b><br/>
+            {{coupon_content}} <br/><br/>
+            
+            <div align="center" ng-if="url!='/images/medium/missing.png'"><img src="http://106.186.23.15/{{url}}'"/></div>
           </div>
         </div>
+        <i>*To redeem coupon present this coupon on NITK Connect app along with student ID.</i>
   </ion-content>
 </ion-view>
