@@ -2,112 +2,60 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $http, Constants, Shared, $localStorage, $timeout) {
 
-  // $.ajax({
-  //       type: "GET",
-  //       async: false,
-  //       url: Constants.baseUrl + 'api/list?after=0'
-  // }).success(function(response, status) {
-  //       //$scope.status = status;
-  //       $scope.result = response;
-  //       Shared.addList(response);
-  //       delete $localStorage.store;
-  //       //Shared.store(response);
-  //       //console.log('Success',$scope.result);
-  // });
-  
-
-  // data=$scope.result;
-  // console.log('data',data);
   $scope.$storage = $localStorage;
-  //         store: data
-  //       });
-  // console.log('local',$scope.$storage);
-  // var cache = $cacheFactory('cache');
-
-  // var data = cache.get(key);
-
-  // if (!data) {
-  //    $.ajax({
-  //       type: "GET",
-  //       async: false,
-  //       url: Constants.baseUrl + 'api/list?after=0'
-  //       }).success(function(response, status){
-  //         $scope.result = response;
-  //         cache.put(key, $scope.result);
-  //       })
-  // }
+  console.log("Localstorage: ");
+  console.log($scope.$storage);
 
 $scope.doRefresh = function() {
-    console.log('refresh');
+    console.log('AppCtrl');
+    if (typeof $localStorage.store[0] !== "undefined")
+      last_date = new Date($localStorage.store[0].created_at).getTime();
+    else
+      last_date = 0;
+
+    console.log("last_date");
+    console.log(last_date);
     $.ajax({
         type: "GET",
         async: false,
-        url: Constants.baseUrl + '/api/list?after=0'})
+        url: Constants.baseUrl + '/api/list?after=' + Math.round(last_date)
+    })
      .success(function(response,status) {
        res = response;
        Shared.addList(response);
-       delete $localStorage.store;
-       console.log('refresh');
+       $.each(res, function( i, n ){
+          $localStorage.store.unshift(n);
+       });
+       console.log(res);
      })
-        $scope.$broadcast('scroll.refreshComplete');
 
-     console.log('refresh');
-  data=res;
-  console.log('dataxz',data);
-  $scope.$storage = $localStorage.$default({
-          store: data
-          });
-   $scope.articles=$scope.$storage.store;
-  // for(var i=0;i<$scope.$storage.store.length;i++){
-  // if($scope.$storage.store[i].event==true){
-  //     console.log('event');
-  //     str='';
-  //     for(var j=0;j<19;j++){
-  //       if(j==10){
-  //         str+=' Time: ';
-  //       }else{
-  //         str+=($scope.$storage.store[i].event_start).charAt(j);
-  //       }
-  //     }
-  //     console.log(str);
-  //     $scope.$storage.store[i].event_start=str;
-  //   }
-  // }
+    $scope.$broadcast('scroll.refreshComplete');
+
+    console.log('dataxz', res);
+    $scope.$storage = $localStorage.$default({
+            store: res
+    });
+     $scope.articles=$scope.$storage.store;
+
 };
-  // delete_list=[];
-  // k=0;
+
   $scope.articles=$scope.$storage.store;
   $scope.cut=moment().startOf('day').subtract(1,'millisecond');
-
-  // for(var i=0;i<$scope.$storage.store.length;i++){
-  // if($scope.$storage.store[i].event==true){
-  //     console.log('event');
-  //     if(cut.isBefore($scope.$storage.store[i].event_start)){
-  //       delete_list[k++]=i;
-  //       //delete $scope.$storage.store[i];
-  //       console.log($scope.$storage.store[i].event_start);
-  //     }
-  //   }
-  // }
 
   var toUTCDate = function(date){
     var _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
     return _utc;
   };
-  
+
   var millisToUTCDate = function(millis){
     return toUTCDate(new Date(millis));
   };
-  
+
     $scope.toUTCDate = toUTCDate;
     $scope.millisToUTCDate = millisToUTCDate;
 
   $scope.title = 'Home';
-  //console.log('Result from controller');
-  //console.log($scope.result);
   $scope.articles=$scope.$storage.store;
-  //console.log('Articles object',$scope.articles);
-  // Side menu sub categories
    $scope.hideSidemenuBackButton = true;
     var topLevelCategories;
 
@@ -125,7 +73,7 @@ $scope.doRefresh = function() {
         {id: 47, title: 'LSD', taxons: [], is_first_level: false},
         {id: 41, title: 'Music Club', taxons: [], is_first_level: false},
         {id: 42, title: 'DDFC', taxons: [], is_first_level: false},
-        {id: 44, title: 'Spic Mackay', taxons: [], is_first_level: false},
+        {id: 44, title: 'Spic Macay', taxons: [], is_first_level: false},
         {id: 45, title: 'Art & Design', taxons: [], is_first_level: false},
         {id: 46, title: 'Kannada Vedika', taxons: [], is_first_level: false}
         ], is_first_level: true},
@@ -170,67 +118,51 @@ $scope.doRefresh = function() {
 })
 
 .controller('CategoryCtrl', function($scope, $stateParams, Constants, Shared, $localStorage, $timeout) {
-  
+
   $scope.articles=[];
-  //$scope.$storage=$localStorage.$default({storedog:'hi'});
-  // $.ajax({
-  //       type: "GET",
-  //       async: false,
-  //       url: Constants.baseUrl + 'api/list?after=0' + $stateParams.categoryName
-  // }).success(function(response, status) {
-  //       //$scope.status = status;
-  //       $scope.result = response;
-  //       //delete $localStorage.storedog.storecat;
-  //       //Shared.store(response);
-  // });
 
   $scope.doRefresh = function() {
-    console.log('refresh');
+    console.log('CategoryCtrl');
+    if (typeof $localStorage.store[0] !== "undefined")
+      last_date = new Date($localStorage.store[0].created_at).getTime()/1000.0;
+    else
+      last_date = 0;
+    console.log(Constants.baseUrl + 'api/list?after=' + String(Math.round(last_date)) + '&category=' + $stateParams.categoryName);
     $.ajax({
         type: "GET",
         async: false,
-        url: Constants.baseUrl + 'api/list?after=0'})
+        url: Constants.baseUrl + 'api/list?after=' + String(Math.round(last_date)) + '&category=' + $stateParams.categoryName
+      })
      .success(function(response,status) {
-       res = response;
-       Shared.addList(response);
-       delete $localStorage.store;
-       console.log('refresh');
+         res = response;
+         Shared.addList(response);
+         console.log(res);
      })
+     .fail(function() {
+        var j=0;
+        for(var i=0;i<$scope.$storage.store.length;i++){
+            if(!($scope.$storage.store[i].category).localeCompare($stateParams.categoryName)){
+              $scope.articles[j++]=$scope.$storage.store[i];
+            }
+        }
+     })
+     $.each(res, function( i, n ){
+          $scope.articles.unshift(n);
+       });
      $scope.$broadcast('scroll.refreshComplete');
-       console.log('refresh');
 
   data=res;
   console.log('data',data);
-  $scope.$storage = $localStorage.$default({
-          store: data
-          });
+  $scope.$storage = $localStorage
 
-  var j=0;
-  for(var i=0;i<$scope.$storage.store.length;i++){
-    if(!($scope.$storage.store[i].category).localeCompare($stateParams.categoryName)){
-      $scope.articles[j++]=$scope.$storage.store[i];
-    }
-  }
+
 };
-  console.log('param',$stateParams);
-  // data=$scope.result;
-  // $scope.$storage = $localStorage.$default({storedog:{id: $stateParams.categoryName, storecat:data}});
-  // $scope.articles=$scope.$storage.storedog.storecat;
-  // console.log('store',$scope.$storage.storecat);
 
-
-   var j=0,k=0;
+   var j=$scope.articles.length,   k=0;
    for(var i=0;i<$scope.$storage.store.length;i++){
-  //   if(!($scope.$storage.store[i].category).localeCompare("Coupons")){
-  //     if(!($scope.$storage.store[i].author).localeCompare($stateParams.restaurant_name)){
-  //       $scope.articles[j++]=$scope.$storage.store[i];
-  //     }
-  //   }else{
        if(!($scope.$storage.store[i].category).localeCompare($stateParams.categoryName)){
          $scope.articles[j++]=$scope.$storage.store[i];
-  //       $scope.$index[k++]=$scope.articles[j-1].id;
        }
-  //   }
    }
 
   console.log('success',$scope.articles);
@@ -241,7 +173,6 @@ $scope.doRefresh = function() {
     $scope.restaurant_id = parseInt($stateParams.restaurant_id);
   if (!(typeof $stateParams.coupon_id === 'undefined'))
     coupon_id = parseInt($stateParams.coupon_id);
-  // $scope.articles=$scope.result;
   console.log('param',$stateParams);
 
   $scope.res=[];
@@ -306,8 +237,8 @@ $scope.doRefresh = function() {
       name: 'Sip n Sup Cafe',
       description1: "Cost for 2:",description2:" ₹300",
       description3:"Cuisine:",description4:" Cafe and sandwiches",
-      description5:"Must try:",description6:" Near Surathkal bus stand",
-      description7:"How to get there:",description8:" Cheesecake and Chicken burger",
+      description5:"Must try:",description6:" Cheesecake and Chicken burger",
+      description7:"How to get there:",description8:" Near Surathkal bus stand",
       coupons:$scope.res
     },{
       id: 8,
@@ -337,10 +268,10 @@ $scope.doRefresh = function() {
           console.log('res',$scope.res_title);
           $scope.res[j++]=$scope.$storage.store[i];
         }
-      }else{
+      } else{
        if(!($scope.$storage.store[i].category).localeCompare($stateParams.categoryName)){
          $scope.articles[k++]=$scope.$storage.store[i];
-        } 
+        }
       }
     }
 
@@ -362,7 +293,7 @@ $scope.doRefresh = function() {
   $scope.description6 = $scope.restaurants[$scope.restaurant_id-1].description6;
   $scope.description7 = $scope.restaurants[$scope.restaurant_id-1].description7;
   $scope.description8 = $scope.restaurants[$scope.restaurant_id-1].description8;
-  
+
   for(var i=0; i< ($scope.coupon_list).length;i++){
     if(($scope.coupon_list[i].id) == ($stateParams.coupon_id))
     {
@@ -370,24 +301,18 @@ $scope.doRefresh = function() {
       console.log('url',$scope.url);
       $scope.coupon_title = $scope.coupon_list[i].title;
       $scope.coupon_content = $scope.coupon_list[i].content;
-    }  
+    }
   }
-  //$scope.coupon_title = $scope.restaurants[$scope.restaurant_id-1].coupons[coupon_id-1];
 })
 
 .controller('ArticleCtrl', function($scope, $stateParams, Constants, Shared, $timeout) {
-  //$scope.backendUrl = 'http://nitk-connect.herokuapp.com/' //Change to correct link
-  // $scope.result = Constants.getRequest($stateParams.articleId);
   $scope.id = $stateParams.articleId;
   $scope.articles=[];
   $scope.articles=$scope.$storage.store;
-  //console.log($stateParams.articleId);
   for(var i=0; i< ($scope.articles).length;i++){
-    //if(!($scope.articles[i].title).localeCompare($scope.title)){
-    if($scope.articles[i].id==$stateParams.articleId){  
+    if($scope.articles[i].id==$stateParams.articleId){
     $scope.title=$scope.articles[i].title;
     $scope.content = $scope.articles[i].content;
-    // $scope.title = $scope.articles[i].category;
     if($scope.articles[i].image_url.localeCompare(null)){
       $scope.url=Constants.baseUrl+$scope.articles[i].image_url;
       }
@@ -396,24 +321,22 @@ $scope.doRefresh = function() {
 })
 
 .controller('LiveCtrl',function($scope, Constants, $localStorage, $timeout) {
-  
+
   $scope.articles=[];
   $scope.doRefresh();
 
   $scope.doRefresh = function() {
-    console.log('refresh');
+    console.log('LiveCtrl');
     $.ajax({
         type: "GET",
         async: true,
         url: Constants.baseUrl + '/api/list?after=0'})
      .success(function(response,status) {
        res = response;
-       //Shared.addList(response);
        delete $localStorage.store;
-       console.log('refresh');
+       console.log(res);
      })
      $scope.$broadcast('scroll.refreshComplete');
-       console.log('refresh');
 
   data=res;
   console.log('data',data);
@@ -425,16 +348,14 @@ $scope.doRefresh = function() {
   for(var i=0;i<$scope.$storage.store.length;i++){
     if(!($scope.$storage.store[i].category).localeCompare("Live News")){
         $scope.articles[j++]=$scope.$storage.store[i];
-        // if($scope.articles[j-1].image_url.localeCompare(null)){
-        //   $scope.url[k++]=Constants.baseUrl+$scope.articles[i].image_url;
-        // }
+
       }
     }
 
     $scope.cut=moment().startOf('day').subtract(1,'millisecond');
     console.log('live',$scope.articles);
     console.log('live refresh');
-    
+
     $timeout($scope.doRefresh,600000);
   };
   $timeout($scope.doRefresh,600000);

@@ -7,7 +7,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
 
 .service('Constants', function($http) {
-  this.baseUrl = 'http://106.186.23.15'; //Change for correct URL
+  this.baseUrl = 'http://106.186.23.15/'; //Change for correct URL
 })
 
 .service('Shared', function() {
@@ -17,16 +17,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
     articleList = artList;
   }
 
-  // var store = lawnchair(function(store){
-  //   var str={key: articleList};
-
-  //   store.save(str);
-  
-  //   this.get(articleList,function(str){
-  //     console.log(str);
-  //   })
-  // })
-
   var getList = function(){
     return articleList;
   }
@@ -34,25 +24,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
   return{
     addList: addList,
     getList: getList,
-   // store: store
   };
 })
-
-// .factory('cache', ['$cacheFactory', function($cacheFactory) {
-//     return $cacheFactory('cache');
-// }])
-
-// postRequest =  function(url) {
-//   $http.post(baseUrl + 'url').then(function(resp) {
-//     console.log('Success', resp);
-//     // For JSON responses, resp.data contains the result
-//     result = resp.data
-//   }, function(err) {
-//     console.error('ERR', err);
-//     // err.status will contain the status code
-//   })
-//   return result;
-// }
 
 .run(function($ionicPlatform, Constants, $localStorage) {
   $ionicPlatform.ready(function() {
@@ -61,42 +34,34 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
     //$cordovaSplashScreen.show();
     //navigator.splashscreen.show();
     res=[];
-    console.log("Cordova is ready, let's do this!");
+
+    console.log($localStorage.store);
+
+    if (typeof $localStorage.store[0] != "undefined")
+      last_date = new Date($localStorage.store[0].created_at).getTime()/1000.0;
+    else
+      last_date = 0;
+
+    console.log("app.js");
+    console.log(Constants.baseUrl + '/api/list?after=' + Math.round(new Date(last_date)));
+    // console.log(Constants.baseUrl + "/api/list?after=\"" + last_date + "\"");
     $.ajax({
         type: "GET",
         async: false,
-        url: Constants.baseUrl + '/api/list?after=0'})
+        url: Constants.baseUrl + '/api/list?after=' + String(last_date)
+      })
      .success(function(response,status) {
        res = response;
-       delete $localStorage.store;
-      //navigator.splashscreen.hide();
-       //$cordovaSplashScreen.hide();
-
-       console.log('refresh');
+       // Store newer articles at the start of the array
+       $.each(res, function( i, n ){
+          $localStorage.store.unshift(n);
+       });
      })
-     console.log('refresh');
-
-     data=res;
-     console.log('data',data);
+     console.log('data',res);
      $localStorage.$default({
-          store: data
-          });
+          store: res
+      });
 
-  // for(var i=0;i<$localStorage.store.length;i++){
-  // if($localStorage.store[i].event==true){
-  //     console.log('event');
-  //     str='';
-  //     for(var j=0;j<19;j++){
-  //       if(j==10){
-  //         str+=' Time: ';
-  //       }else{
-  //         str+=($localStorage.store[i].event_start).charAt(j);
-  //       }
-  //     }
-  //     console.log(str);
-  //     $localStorage.store[i].event_start=str;
-  //   }
-  // }
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -201,7 +166,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
       url: "/article/:articleId",
       views: {
         'menuContent' :{
-          templateUrl: "templates/article.html",
+          templateUrl: "templates/test_article.html",
           controller: 'ArticleCtrl'
         }
       }

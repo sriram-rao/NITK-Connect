@@ -1,0 +1,17 @@
+<ion-view title="{{title}}" style="color: blue"><!--
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-chatbox" href="#/app/article/{{title}}/comments"></button>
+  </ion-nav-buttons> -->
+  <ion-content class="has-header">
+
+    <div class="card">
+            <div class="item item-divider">
+              {{title}}
+            </div>
+          <div class="item item-text-wrap" style="text-align: left;">
+            {{content}}
+          </div>
+        </div>
+      <div align="center" ng-if="url!='http://106.186.23.15/images/medium/missing.png'"><img src="{{url}}"/></div>
+  </ion-content>
+</ion-view>
