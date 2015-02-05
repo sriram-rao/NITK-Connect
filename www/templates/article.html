@@ -1,3 +1,8 @@
+<!--<head>
+<link href="../css/lightbox.css" rel="stylesheet">
+<script src='../lib/ionic/js/jquery.min.js'></script>
+	<script src='../lib/ionic/js/lightbox.min.js'></script>
+</head> -->
 <ion-view title="{{title}}" style="color: blue"><!-- 
   <ion-nav-buttons side="right">
     <button class="button button-icon icon ion-chatbox" href="#/app/article/{{title}}/comments"></button>
@@ -12,6 +17,10 @@
             {{content}}
           </div>
         </div>
-      <div align="center" ng-if="url!='http://106.186.23.15/images/medium/missing.png'"><img src="{{url}}"/></div>
+      <div align="center" ng-if="url!='http://106.186.23.15/images/medium/missing.png'"><a href="{{url}}" data-lightbox="{{title}}" data-title="{{title}}"><img src="{{url}}"/></a></div>
+  	  <!-- Code for image display
+  	  <div align="center" ng-if="url!='http://106.186.23.15/images/medium/missing.png'"><a href="{{url}}" data-lightbox="{{title}}" data-title="{{title}}"><img src="{{url}}"/></a></div>
+  	  --></div>
   </ion-content>
+
 </ion-view>
