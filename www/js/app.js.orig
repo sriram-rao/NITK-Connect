@@ -31,35 +31,49 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    //$cordovaSplashScreen.show();
-    //navigator.splashscreen.show();
     res=[];
-    $scope.upcoming=true;
-    $scope.completed=false;
-   
+<<<<<<< HEAD
+
+    console.log($localStorage.store);
 
     if (typeof $localStorage.store[0] != "undefined") {
       $scope.favourite=$scope.$storage.favourite;
+=======
+    if (typeof $localStorage.store == "undefined")
+      $localStorage.store = []
+    if (typeof $localStorage.store[0] != "undefined")
+>>>>>>> 2d4e21567055d780347de1449103f3acf4ca5c5e
       last_date = new Date($localStorage.store[0].created_at).getTime()/1000.0;
     } else { 
       last_date = 0;
+<<<<<<< HEAD
     $scope.$storage.favourite=[1,2,3,4,5,6,7,8,9,10];
       $scope.favourite=$scope.$storage.favourite;
     }
     console.log("app.js");
     console.log(Constants.baseUrl + '/api/list?after=' + Math.round(new Date(last_date)));
     // console.log(Constants.baseUrl + "/api/list?after=\"" + last_date + "\"");
+=======
+
+>>>>>>> 2d4e21567055d780347de1449103f3acf4ca5c5e
     $.ajax({
         type: "GET",
         async: false,
         url: Constants.baseUrl + '/api/list?after=' + String(last_date)
       })
      .success(function(response,status) {
+<<<<<<< HEAD
+       res=response;
+     
+         // Store newer articles at the start of the array
+       $.each(res, function( i, n ){
+=======
        res = response;
        if (last_date==0)
           $localStorage.store = [];
        // Store newer articles at the start of the array
        $.each(res.reverse(), function( i, n ){
+>>>>>>> 2d4e21567055d780347de1449103f3acf4ca5c5e
           $localStorage.store.unshift(n);
        });
      })
@@ -67,7 +81,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
      $localStorage.$default({
           store: res
       });
-
+     // $localStorage.store = [];
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -172,16 +186,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
       url: "/article/:articleId",
       views: {
         'menuContent' :{
-          templateUrl: "templates/article.html",
+          templateUrl: "templates/test_article.html",
           controller: 'ArticleCtrl'
-        }
-      }
-    }).state('app.settings',{
-      url:"/settings",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/settings.html",
-          controller:'settingsCtrl'
         }
       }
     });

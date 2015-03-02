@@ -7,10 +7,10 @@
 a {
    text-decoration: none;
 }
-#staron{
+.staron{
 	background-image: "../img/bookmark.png";
 }
-#staroff{
+.staroff{
 	background-image: "../img/star_none.png";
 }
 .test-image{
