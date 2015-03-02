@@ -31,20 +31,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    //$cordovaSplashScreen.show();
-    //navigator.splashscreen.show();
     res=[];
-
-    console.log($localStorage.store);
-
+    if (typeof $localStorage.store == "undefined")
+      $localStorage.store = []
     if (typeof $localStorage.store[0] != "undefined")
       last_date = new Date($localStorage.store[0].created_at).getTime()/1000.0;
     else
       last_date = 0;
 
-    console.log("app.js");
-    console.log(Constants.baseUrl + '/api/list?after=' + Math.round(new Date(last_date)));
-    // console.log(Constants.baseUrl + "/api/list?after=\"" + last_date + "\"");
     $.ajax({
         type: "GET",
         async: false,
@@ -52,8 +46,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
       })
      .success(function(response,status) {
        res = response;
+       if (last_date==0)
+          $localStorage.store = [];
        // Store newer articles at the start of the array
-       $.each(res, function( i, n ){
+       $.each(res.reverse(), function( i, n ){
           $localStorage.store.unshift(n);
        });
      })
@@ -61,7 +57,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
      $localStorage.$default({
           store: res
       });
-
+     // $localStorage.store = [];
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }

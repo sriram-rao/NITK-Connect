@@ -2,28 +2,28 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $http, Constants, Shared, $localStorage, $timeout) {
 
-  $scope.$storage = $localStorage;
-  console.log("Localstorage: ");
-  console.log($scope.$storage);
-
 $scope.doRefresh = function() {
-    console.log('AppCtrl');
+
+    if (typeof $localStorage.store == "undefined")
+      $localStorage.store = []
     if (typeof $localStorage.store[0] !== "undefined")
-      last_date = new Date($localStorage.store[0].created_at).getTime();
+      last_date = new Date($localStorage.store[0].created_at).getTime()/1000.0;
     else
       last_date = 0;
 
     console.log("last_date");
     console.log(last_date);
+    console.log($localStorage.store);
     $.ajax({
         type: "GET",
         async: false,
-        url: Constants.baseUrl + '/api/list?after=' + Math.round(last_date)
+        url: Constants.baseUrl + '/api/list?after=' + String(Math.round(last_date))
     })
      .success(function(response,status) {
        res = response;
+       console.log(res);
        Shared.addList(response);
-       $.each(res, function( i, n ){
+       $.each(res.reverse(), function( i, n ){
           $localStorage.store.unshift(n);
        });
        console.log(res);
@@ -36,10 +36,9 @@ $scope.doRefresh = function() {
             store: res
     });
      $scope.articles=$scope.$storage.store;
-
 };
 
-  $scope.articles=$scope.$storage.store;
+  $scope.$storage = $localStorage;
   $scope.cut=moment().startOf('day').subtract(1,'millisecond');
 
   var toUTCDate = function(date){
@@ -57,8 +56,9 @@ $scope.doRefresh = function() {
   $scope.title = 'Home';
   $scope.articles=$scope.$storage.store;
    $scope.hideSidemenuBackButton = true;
-    var topLevelCategories;
 
+   //Start of subcategories
+    var topLevelCategories;
     topLevelCategories = $scope.categories = [
       {id: 1, title: 'Student Council', taxons: [], is_first_level: true},
       //{id: 2, title: 'Administration', taxons: [], is_first_level: true},
@@ -123,6 +123,8 @@ $scope.doRefresh = function() {
 
   $scope.doRefresh = function() {
     console.log('CategoryCtrl');
+    if (typeof $localStorage.store == "undefined")
+      $localStorage.store = []
     if (typeof $localStorage.store[0] !== "undefined")
       last_date = new Date($localStorage.store[0].created_at).getTime()/1000.0;
     else
@@ -146,7 +148,7 @@ $scope.doRefresh = function() {
             }
         }
      })
-     $.each(res, function( i, n ){
+     $.each(res.reverse(), function( i, n ){
           $scope.articles.unshift(n);
        });
      $scope.$broadcast('scroll.refreshComplete');
