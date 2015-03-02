@@ -27,7 +27,6 @@
         </ion-list>
       </ion-content>
     </ion-tab>
-
     <ion-tab title="Events">
       <ion-content class="has-header">
         <ion-refresher
@@ -38,7 +37,9 @@
             >
         </ion-refresher>
         <ion-list>
-          <ion-item class="card" ng-repeat="event in articles | orderBy: 'event_start' " ng-if="event.event==true && cut.isBefore(event.event_start)" href="#/app/article/{{event.id}}">
+        <input type="submit" value="Upcoming" ng-click="toggleUpcoming()"/>
+        <div ng-show="upcoming">
+        <ion-item class="card" ng-repeat="event in articles | orderBy: 'event_start' " ng-if="event.event==true && cut.isBefore(event.event_start)" href="#/app/article/{{event.id}}">
               <div>
                 <b>{{event.title}}</b>
               </div>
@@ -46,6 +47,19 @@
                <div> When: {{millisToUTCDate(event.event_start) | date: 'd MMMM yyyy hh:mm a' : 'UTC'}}</div>
         </ion-item>
         </ion-list>
+        </div>
+        <input type="submit" value="Completed" ng-click="toggleCompleted()"/>
+        <div ng-show="completed">
+        <ion-list>
+          <ion-item class="card" ng-repeat="event in articles | orderBy: 'event_start' " ng-if="event.event==true && !cut.isBefore(event.event_start)" href="#/app/article/{{event.id}}">
+              <div>
+                <b>{{event.title}}</b>
+              </div>
+                <div>Where: {{event.venue}}</div>
+               <div> When: {{millisToUTCDate(event.event_start) | date: 'd MMMM yyyy hh:mm a' : 'UTC'}}</div>
+        </ion-item>
+        </ion-list>
+        </div>
       </ion-content>
     </ion-tab>
 

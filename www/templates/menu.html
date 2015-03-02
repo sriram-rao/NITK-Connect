@@ -22,8 +22,8 @@
         Live News
       </ion-item>
 		<div menu-close ng-repeat="category in categories">
-          <a ng-if="category.taxons.length > 0 && category.is_first_level" ng-click="showSubcategories(category)" class="item">{{category.title}}</a>
-          <a ng-if="category.taxons.length == 0 || !category.is_first_level"  href="#/app/category/{{category.title}}" class="item">{{category.title}}</a>
+          <a ng-if="category.taxons.length > 0 && category.is_first_level" ng-click="showSubcategories(category)" class="item">{{category.title}}</a><button ng-if="category.taxons.length > 0 && category.is_first_level"class="btn btn-icon" ng-click="toggleFavourite(category.id)"><span class="glyphicon glyphicon-star" ng-class="{active: category.favourite}" ng-click="toggleFavourite(category.id)"></span></button>
+          <a ng-if="category.taxons.length == 0 || !category.is_first_level"  href="#/app/category/{{category.title}}" class="item" >{{category.title}}</a><button ng-if="category.taxons.length == 0 || !category.is_first_level" class="btn btn-icon" ng-click="toggleFavourite(category.id)"><span class="glyphicon glyphicon-star" ng-class="{active: category.favourite}" ng-click="toggleFavourite(category.id)"></span></button>
 		</div>
 		</div>
 		<div>

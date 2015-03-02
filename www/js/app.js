@@ -37,11 +37,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
 
     console.log($localStorage.store);
 
-    if (typeof $localStorage.store[0] != "undefined")
+    if (typeof $localStorage.store[0] != "undefined") {
+      $scope.favourite=$scope.$storage.favourite;
       last_date = new Date($localStorage.store[0].created_at).getTime()/1000.0;
-    else
+    } else { 
       last_date = 0;
-
+    $scope.$storage.favourite=[1,2,3,4,5,6,7,8,9,10];
+      $scope.favourite=$scope.$storage.favourite;
+    }
     console.log("app.js");
     console.log(Constants.baseUrl + '/api/list?after=' + Math.round(new Date(last_date)));
     // console.log(Constants.baseUrl + "/api/list?after=\"" + last_date + "\"");
@@ -51,8 +54,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
         url: Constants.baseUrl + '/api/list?after=' + String(last_date)
       })
      .success(function(response,status) {
-       res = response;
-       // Store newer articles at the start of the array
+       res=response;
+     
+         // Store newer articles at the start of the array
        $.each(res, function( i, n ){
           $localStorage.store.unshift(n);
        });
@@ -174,3 +178,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/articles');
 });
+

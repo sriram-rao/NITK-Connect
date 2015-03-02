@@ -5,13 +5,31 @@ angular.module('starter.controllers', [])
   $scope.$storage = $localStorage;
   console.log("Localstorage: ");
   console.log($scope.$storage);
-
+  console.log($scope.$storage.favourite)
+$scope.$storage.favourite = [1,2,3,4,5,6,7,8,9,10];
 $scope.doRefresh = function() {
     console.log('AppCtrl');
-    if (typeof $localStorage.store[0] !== "undefined")
+    $scope.upcoming=true;
+    $scope.completed=false;
+    $scope.toggleUpcoming = function () {
+      $scope.upcoming=!$scope.upcoming;
+    }
+    $scope.toggleCompleted = function () {
+      $scope.completed=!$scope.completed;
+    }
+
+    if (typeof $localStorage.store[0] !== "undefined"){
       last_date = new Date($localStorage.store[0].created_at).getTime();
-    else
+      $scope.$storage.favourite = [1,2,3,4,5,6,7,8,9,10];
+      $scope.favourite=$scope.$storage.favourite;
+      console.log("hello");
+    }
+    else{
       last_date = 0;
+      $scope.$storage.favourite = [1,2,3,4,5,6,7,8,9,10];
+      $scope.favourite=$scope.$storage.favourite;
+      console.log("hello");
+    }
 
     console.log("last_date");
     console.log(last_date);
@@ -111,9 +129,24 @@ $scope.doRefresh = function() {
 
     $scope.showTopLevelCategories = function () {
         $scope.categories = topLevelCategories;
+        for (var i in topLevelCategories) {
+          if(topLevelCategories.id[i]==$scope.$storage.favourite[i])
+            topLevelCategories.favourite=true;
+          else
+            topLevelCategories.favourite=false;
+        }
         $scope.title = 'Categories';
         $scope.hideSidemenuBackButton = true;
     };
+    $scope.toggleFavourite = function (id) {
+      if($scope.$storage.favourite[id]){
+          $scope.$storage.favourite[id]=0;
+          topLevelCategories.favourite=false;
+      } else {
+        $scope.$storage.favourite[id]=id;
+        topLevelCategories.favourite=true;
+      }
+    } 
     // End of subcategories
 })
 
