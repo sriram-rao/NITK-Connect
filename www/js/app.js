@@ -34,17 +34,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage'])
     //$cordovaSplashScreen.show();
     //navigator.splashscreen.show();
     res=[];
-    $scope.upcoming=true;
-    $scope.completed=false;
-   
-
     if (typeof $localStorage.store[0] != "undefined") {
-      $scope.favourite=$scope.$storage.favourite;
       last_date = new Date($localStorage.store[0].created_at).getTime()/1000.0;
     } else { 
       last_date = 0;
-    $scope.$storage.favourite=[1,2,3,4,5,6,7,8,9,10];
-      $scope.favourite=$scope.$storage.favourite;
     }
     console.log("app.js");
     console.log(Constants.baseUrl + '/api/list?after=' + Math.round(new Date(last_date)));
