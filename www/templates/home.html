@@ -29,6 +29,7 @@
     </ion-tab>
 
     <ion-tab title="Events">
+      
       <ion-content class="has-header">
         <ion-refresher
             pulling-text="Pull to refresh..."
@@ -38,7 +39,25 @@
             >
         </ion-refresher>
         <ion-list>
-          <ion-item class="card" ng-repeat="event in articles | orderBy: 'event_start' " ng-if="event.event==true && cut.isBefore(event.event_start)" href="#/app/article/{{event.id}}">
+          <ion-item class="card" ng-repeat="event in articles | orderBy: 'event_start' " ng-if="event.event==true && cut.isBefore(event.event_start) && upcoming==true" href="#/app/article/{{event.id}}">
+              <div>
+                <b>{{event.title}}</b>
+              </div>
+                <div>Where: {{event.venue}}</div>
+               <div> When: {{millisToUTCDate(event.event_start) | date: 'd MMMM yyyy hh:mm a' : 'UTC'}}</div>
+        </ion-item>
+        </ion-list>
+      </ion-content>
+      <ion-content class="has-header">
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            refreshing-icon="ion-loading-d"
+            refreshing-text="Refreshing"
+            on-refresh="doRefresh()"
+            >
+        </ion-refresher>
+        <ion-list>
+          <ion-item class="card" ng-repeat="event in articles | orderBy: 'event_start' " ng-if="event.event==true && !cut.isBefore(event.event_start&&completed==true)" href="#/app/article/{{event.id}}">
               <div>
                 <b>{{event.title}}</b>
               </div>

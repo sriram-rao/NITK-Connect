@@ -17,15 +17,32 @@
 	  <div>
       <ion-item menu-close class="item item-divider" href="#/app/articles">
 		    Home
+		    
 	    </ion-item>
       <ion-item menu-close class="item item-divider" href="#/app/live">
         Live News
       </ion-item>
+      
 		<div menu-close ng-repeat="category in categories">
-          <a ng-if="category.taxons.length > 0 && category.is_first_level" ng-click="showSubcategories(category)" class="item">{{category.title}}</a>
-          <a ng-if="category.taxons.length == 0 || !category.is_first_level"  href="#/app/category/{{category.title}}" class="item">{{category.title}}</a>
+          <a ng-if="category.taxons.length > 0 && category.is_first_level" ng-click="showSubcategories(category)" class="item">{{category.title}}</a><button ng-if="category.taxons.length > 0 && category.is_first_level"class="btn btn-icon"></button>
+          <a ng-if="category.taxons.length == 0 || !category.is_first_level"  href="#/app/category/{{category.title}}" class="item" >{{category.title}}<button ng-if="category.taxons.length == 0 || !category.is_first_level" class="btn btn-icon" >
+         	</button>
+         	<!--<label class="toggle"
+          <input type="checkbox" ng-model="category.favourite">
+          <div class="track">
+          <div class="handle"></div>
+		  -->
+		   <!--<img src="../../img/bookmark.png" width="24px" height="24px" align="right" margin-left="5px" ng-show="category.favourite">
+	    	</div>
+	    	<div id="staroff" ng-click="toggleFavourite(category.id)">
+	    	<!<img src="../../img/star_none.png" width="28px" height="26px" diplay="inline-block">-->
+	    	</div>	
+          </a>
 		</div>
 		</div>
+		<ion-item menu-close class="item item-divider" style="vertical-align: bottom" offset = "5"href="#/app/settings">
+        Settings
+      </ion-item>
 		<div>
 		<ion-item menu-close class="item item-divider" style="vertical-align: bottom" offset = "5" href="#/app/coupons">
         Restaurant Deals

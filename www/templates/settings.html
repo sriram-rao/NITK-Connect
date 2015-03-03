@@ -1,0 +1,11 @@
+<ion-view title="Settings" hide-back-button=true style="background-colour:blue">
+  <ion-nav-buttons side="left">
+  <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-header" style="background-colour:blue">
+  <ion-item ng-repeat="category in categories">
+  <ion-toggle ng-model="category.favourite" toggle-class="toggle-calm">{{category.name}}</ion-toggle>
+          
+          </ion-item>
+          </ion-content>
+          </ion-view>
