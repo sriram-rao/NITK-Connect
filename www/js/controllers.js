@@ -3,8 +3,8 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope, $http, Constants, Shared, $localStorage, $timeout) {
 
   $scope.$storage = $localStorage;
-    //$scope.$storage.favourite=[{name:'Student Council',favourite: true} ,{name:'IEEE',favourite: true },{name:'CSI',favourite: true } ,{name:'IE',favourite: true },{name:'ISTE' ,favourite: true },{name:'IET' ,favourite: true },{name:'LSD',favourite: true },{name:'Music Club',favourite: true },{name:'DDFC',favourite: true },{name:'Spic Macay',favourite: true }, {name:'Art & Design',favourite: true },{name:'Kannada Vedika' ,favourite: true },{name:'Rotaract',favourite: true },{name:'Robotics & Flying Club',favourite: true },{name:'Hobbies Club',favourite: true },{name:'E-Cell',favourite: true },{name:'Racing Club',favourite: true },{name:'Engineer',favourite: true },{name:'Incident',favourite: true },{name:'Talks and Seminars',favourite: true } ,{name:'College Sports',favourite: true }];
-      
+     //$scope.$storage.favourite=[{name:'Live News', favourite : true},{name:'Student Council',favourite: true} ,{name:'IEEE',favourite: true },{name:'CSI',favourite: true } ,{name:'IE',favourite: true },{name:'ISTE' ,favourite: true },{name:'IET' ,favourite: true },{name:'LSD',favourite: true },{name:'Music Club',favourite: true },{name:'DDFC',favourite: true },{name:'Spic Macay',favourite: true }, {name:'Art & Design',favourite: true },{name:'Kannada Vedika' ,favourite: true },{name:'Rotaract',favourite: true },{name:'Robotics & Flying Club',favourite: true },{name:'Hobbies Club',favourite: true },{name:'E-Cell',favourite: true },{name:'Racing Club',favourite: true },{name:'Engineer',favourite: true },{name:'Incident',favourite: true },{name:'Talks and Seminars',favourite: true } ,{name:'College Sports',favourite: true }];
+          
   console.log("Localstorage: ");
   console.log($scope.$storage);
   /*for (var j in topLevelCategories){
@@ -31,15 +31,15 @@ $scope.doRefresh = function() {
       $localStorage.store = []
     if (typeof $localStorage.store[0] !== "undefined"){
       last_date = new Date($localStorage.store[0].created_at).getTime();
-        $scope.$storage.favourite=[{'Name':'Student Council','Favourite': true} ,{'Name':'IEEE','Favourite': true },{'Name':'CSI','Favourite': true } ,{'Name':'IE','Favourite': true },{'Name':'ISTE' ,'Favourite': true },{'Name':'IET' ,'Favourite': true },{'Name':'LSD','Favourite': true },{'Name':'Music Club','Favourite': true },{'Name':'DDFC','Favourite': true },{'Name':'Spic Macay','Favourite': true }, {'Name':'Art & Design','Favourite': true },{'Name':'Kannada Vedika' ,'Favourite': true },{'Name':'Rotaract','Favourite': true },{'Name':'Robotics & Flying Club','Favourite': true },{'Name':'Hobbies Club','Favourite': true },{'Name':'E-Cell','Favourite': true },{'Name':'Racing Club','Favourite': true },{'Name':'Engineer','Favourite': true },{'Name':'Incident','Favourite': true },{'Name':'Talks and Seminars','Favourite': true } ,{'Name':'College Sports','Favourite': true }];
-      $scope.favourite=$scope.$storage.favourite;
+       $scope.$storage.favourite=[{name:'Live News', favourite : true},{name:'Student Council',favourite: true} ,{name:'IEEE',favourite: true },{name:'CSI',favourite: true } ,{name:'IE',favourite: true },{name:'ISTE' ,favourite: true },{name:'IET' ,favourite: true },{name:'LSD',favourite: true },{name:'Music Club',favourite: true },{name:'DDFC',favourite: true },{name:'Spic Macay',favourite: true }, {name:'Art & Design',favourite: true },{name:'Kannada Vedika' ,favourite: true },{name:'Rotaract',favourite: true },{name:'Robotics & Flying Club',favourite: true },{name:'Hobbies Club',favourite: true },{name:'E-Cell',favourite: true },{name:'Racing Club',favourite: true },{name:'Engineer',favourite: true },{name:'Incident',favourite: true },{name:'Talks and Seminars',favourite: true } ,{name:'College Sports',favourite: true }];
+         $scope.favourite=$scope.$storage.favourite;
       console.log("hello");
     
     }
     else{
       last_date = 0;
-         $scope.$storage.favourite=[{'Name':'Student Council','Favourite': true },{'Name':'IEEE','Favourite': true },{'Name':'CSI','Favourite': true } ,{'Name':'IE','Favourite': true },{'Name':'ISTE' ,'Favourite': true },{'Name':'IET' ,'Favourite': true },{'Name':'LSD','Favourite': true },{'Name':'Music Club','Favourite': true },{'Name':'DDFC','Favourite': true },{'Name':'Spic Macay','Favourite': true }, {'Name':'Art & Design','Favourite': true },{'Name':'Kannada Vedika' ,'Favourite': true },{'Name':'Rotaract','Favourite': true },{'Name':'Robotics & Flying Club','Favourite': true },{'Name':'Hobbies Club','Favourite': true },{'Name':'E-Cell','Favourite': true },{'Name':'Racing Club','Favourite': true },{'Name':'Engineer','Favourite': true },{'Name':'Incident','Favourite': true },{'Name':'Talks and Seminars','Favourite': true } ,{'Name':'College Sports','Favourite': true }];
-     }
+         $scope.$storage.favourite=[{name:'Live News', favourite : true},{name:'Student Council',favourite: true} ,{name:'IEEE',favourite: true },{name:'CSI',favourite: true } ,{name:'IE',favourite: true },{name:'ISTE' ,favourite: true },{name:'IET' ,favourite: true },{name:'LSD',favourite: true },{name:'Music Club',favourite: true },{name:'DDFC',favourite: true },{name:'Spic Macay',favourite: true }, {name:'Art & Design',favourite: true },{name:'Kannada Vedika' ,favourite: true },{name:'Rotaract',favourite: true },{name:'Robotics & Flying Club',favourite: true },{name:'Hobbies Club',favourite: true },{name:'E-Cell',favourite: true },{name:'Racing Club',favourite: true },{name:'Engineer',favourite: true },{name:'Incident',favourite: true },{name:'Talks and Seminars',favourite: true } ,{name:'College Sports',favourite: true }];
+         }
       $scope.favourite=$scope.$storage.favourite;
       console.log("hello");
     
@@ -95,7 +95,8 @@ $scope.doRefresh = function() {
     var topLevelCategories;
 
     topLevelCategories = $scope.categories = [
-      {id: 1, title: 'Student Council', taxons: [], is_first_level: true,},
+      {id: 1, title: 'Live News', taxons: [], is_first_level: true},
+      {id: 2, title: 'Student Council', taxons: [], is_first_level: true},
       //{id: 2, title: 'Administration', taxons: [], is_first_level: true},
       {id: 3, title: 'Technical Clubs', taxons: [
         {id: 31, title: 'IEEE', taxons: [], is_first_level: false},
